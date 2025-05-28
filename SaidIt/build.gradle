@@ -2,10 +2,10 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://repo.maven.apache.org/maven2" }
+//        maven { url "https://repo.maven.apache.org/maven2" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.10.0'
     }
 }
 apply plugin: 'com.android.application'
@@ -17,23 +17,25 @@ repositories {
 
 android {
     namespace 'eu.mrogalski.saidit'
-    compileSdk 34
-
-    defaultConfig{
-        applicationId "eu.mrogalski.saidit"
-        minSdk 21
-        targetSdk 34
-        versionCode 14
-        versionName "1.3.39"
-    }
+    compileSdk 35
 
     signingConfigs {
         release {
-            storeFile file("<relative path>")
-            storePassword "<fill in>"
-            keyAlias "<fill in>"
-            keyPassword "<fill in>"
+            storeFile file('echo-release-key.keystore')
+            storePassword "bsdara"
+            keyAlias "echo"
+            keyPassword "bsdara"
         }
+    }
+
+    defaultConfig{
+        applicationId "eu.mrogalski.saidit"
+        minSdk 34
+        targetSdk 34
+        versionCode 14
+        versionName "1.3.39"
+        signingConfig signingConfigs.release
+//        proguardFiles ''
     }
 
     buildTypes {
@@ -48,17 +50,26 @@ android {
             //signingConfig signingConfigs.release
         }
     }
-    lintOptions {
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
+    lint {
         abortOnError false
     }
+    buildToolsVersion '35.0.0'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//    }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+//    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.nineoldandroids:library:2.4.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+//    implementation 'androidx.legacy:legacy-support-v4:28.0.0'
+    implementation 'com.android.support:support-v13:28.0.0'
+    implementation('com.google.android.material:material:1.12.0')
+    implementation('com.android.support:appcompat-v7:28.0.0')
 }
